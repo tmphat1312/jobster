@@ -1,15 +1,52 @@
 import Logo from "@/components/Logo"
-import { Link } from "react-router-dom"
+import { useState } from "react"
+
+export interface FormValues {
+  name: string
+  email: string
+  password: string
+  hasAccount: boolean
+}
+
+const initialValues: FormValues = {
+  name: "",
+  email: "",
+  password: "",
+  hasAccount: true,
+}
 
 function Register() {
+  const [values, setValues] = useState(initialValues)
+
+  function toggleHasAccount() {
+    setValues((prevValues) => ({
+      ...prevValues,
+      hasAccount: !prevValues.hasAccount,
+    }))
+  }
+
   return (
     <div className="grid min-h-screen place-content-center">
       <div className={formContainerStyles}>
         <header className={formHeaderStyles}>
           <Logo />
-          <h1 className={formTitleStyles}>Login</h1>
+          <h1 className={formTitleStyles}>
+            {values.hasAccount ? "login" : "register"}
+          </h1>
         </header>
         <form className="space-y-8 text-xl register-form" action="/dashboard">
+          {!values.hasAccount && (
+            <label className={labelStyles} htmlFor="name">
+              <span>name</span>
+              <input
+                className={inputStyles}
+                type="text"
+                name="name"
+                id="name"
+                required
+              />
+            </label>
+          )}
           <label className={labelStyles} htmlFor="email">
             <span>email</span>
             <input
@@ -37,13 +74,16 @@ function Register() {
             submit
           </button>
           <p className="text-center">
-            Haven't have an account yet?{" "}
-            <Link
-              to="/register"
-              className="text-primary-500 hover:text-primary-600"
+            {values.hasAccount
+              ? "Don't have an account?"
+              : "Already have an account?"}{" "}
+            <button
+              onClick={toggleHasAccount}
+              type="button"
+              className="capitalize text-primary-500 hover:text-primary-600"
             >
-              Register
-            </Link>
+              {values.hasAccount ? "register" : "login"}
+            </button>
           </p>
         </form>
       </div>
