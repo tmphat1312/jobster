@@ -1,11 +1,11 @@
-import logo from "@images/logo.svg"
+import Logo from "@/components/Logo"
 import hero from "@images/hero-female.svg"
 
 function Landing() {
   return (
     <>
       <header className="py-6">
-        <img src={logo} alt="Jobster job tracking app logo" />
+        <Logo />
       </header>
       <main className="grid items-center grid-cols-1 gap-16 py-40 sm:grid-cols-2">
         <section className="space-y-6">
