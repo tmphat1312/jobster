@@ -1,12 +1,35 @@
-import logo from "@images/logo.svg"
-import main from "@images/main.svg"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Landing from "./pages/Landing"
+import Error from "./pages/Error"
+import Dashboard from "./pages/Dashboard"
+import Register from "./pages/Register"
+import LoadingSpinner from "./components/LoadingSpinner"
+
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <Landing />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+    ],
+  },
+])
 
 function App() {
   return (
-    <div>
-      <img src={logo} alt="" />
-      <img src={main} alt="" />
-      <p className="text-primary-900">I'm typing some text.</p>
+    <div className="app">
+      <RouterProvider router={routes} fallbackElement={<LoadingSpinner />} />
     </div>
   )
 }
