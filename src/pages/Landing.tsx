@@ -1,5 +1,6 @@
 import Logo from "@/components/Logo"
 import hero from "@images/hero-female.svg"
+import { Link } from "react-router-dom"
 
 function Landing() {
   return (
@@ -19,7 +20,9 @@ function Landing() {
             deadline or opportunity. Let Jobster help you find your dream job
             today!
           </p>
-          <button className="button button--primary">login / register</button>
+          <Link to="/register" className="inline-block button button--primary">
+            login / register
+          </Link>
         </section>
         <img
           src={hero}
