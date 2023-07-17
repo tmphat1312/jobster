@@ -7,6 +7,11 @@
     font-family: "Cabin", sans-serif;
   }
 
+  body {
+    background-color: theme("backgroundColor.slate.100");
+    color: theme("textColor.slate.500");
+  }
+
   h1,
   h2,
   h3,
@@ -14,5 +19,28 @@
   h5,
   h6 {
     font-family: "Roboto Condensed", sans-serif;
+    color: theme("textColor.slate.800");
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .app {
+    min-block-size: 100dvh;
+    inline-size: min(70rem, 90%);
+    margin-inline: auto;
+  }
+
+  .button {
+    @apply text-xl capitalize;
+    @apply rounded-md drop-shadow-sm;
+    transition-property: background-color, box-shadow;
+    transition-duration: 100ms;
+    padding: 0.25em 1em;
+  }
+
+  .button--primary {
+    @apply text-white bg-blue-500;
+    @apply hover:bg-blue-600 hover:drop-shadow-md;
   }
 }
