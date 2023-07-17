@@ -53,9 +53,10 @@ function Register() {
 
 /* styles */
 const formContainerStyles =
-  "px-8 py-16 overflow-hidden bg-white rounded-lg top-line drop-shadow-md w-[90vw] max-w-md line--primary"
+  "px-8 py-16 overflow-hidden bg-white rounded-lg top-line drop-shadow-md w-[90vw] max-w-[450px] line--primary"
 const formHeaderStyles = "flex flex-col items-center justify-center gap-8 mb-8"
-const formTitleStyles = "text-4xl font-semibold tracking-widest drop-shadow-md"
+const formTitleStyles =
+  "text-4xl font-semibold tracking-widest drop-shadow-md capitalize"
 const labelStyles = "block space-y-2 capitalize"
 const inputStyles =
   "border-2 rounded-sm bg-slate-100 focus-visible:bg-slate-50 w-full"
