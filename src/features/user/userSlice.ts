@@ -105,7 +105,9 @@ const userSlice = createSlice({
       state.status = "pending"
       toast.loading("Logging in user...")
     })
-    builder.addCase(loginUser.fulfilled, (state) => {
+    builder.addCase(loginUser.fulfilled, (state, { payload }) => {
+      const user = payload.user
+      state.user = user
       state.status = "succeeded"
       toast.remove()
       toast.success("User logged in successfully")
