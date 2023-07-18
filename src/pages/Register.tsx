@@ -2,8 +2,6 @@ import Logo from "@/components/Logo"
 import { loginUser, registerUser } from "@/features/user/userSlice"
 import { useAppDispatch } from "@/hooks"
 import { useState } from "react"
-import { toast } from "react-hot-toast"
-import { useDispatch } from "react-redux"
 
 export interface FormValues {
   name: string
@@ -40,11 +38,6 @@ function Register() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    // if (values.hasAccount) {
-    //   toast.success("Logged in successfully")
-    // } else {
-    //   toast.success("Registered successfully")
-    // }
 
     if (values.hasAccount) {
       dispatch(loginUser({ email: values.email, password: values.password }))
@@ -69,7 +62,7 @@ function Register() {
           </h1>
         </header>
         <form
-          className="space-y-8 text-xl register-form"
+          className="space-y-8 text-xl"
           action="/dashboard"
           onSubmit={handleSubmit}
         >
