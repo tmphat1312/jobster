@@ -4,7 +4,7 @@ import { AxiosError } from "axios"
 import { toast } from "react-hot-toast"
 
 export interface UserState {
-  isLoading: "idle" | "pending" | "succeeded" | "failed"
+  status: "idle" | "pending" | "succeeded" | "failed"
   user: null | UserResponse
 }
 
@@ -17,7 +17,7 @@ export interface UserResponse {
 }
 
 const initialState: UserState = {
-  isLoading: "idle",
+  status: "idle",
   user: null,
 }
 
