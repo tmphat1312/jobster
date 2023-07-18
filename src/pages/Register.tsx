@@ -1,6 +1,6 @@
 import Logo from "@/components/Logo"
 import { loginUser, registerUser } from "@/features/user/userSlice"
-import { useAppDispatch } from "@/hooks"
+import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useState } from "react"
 
 export interface FormValues {
@@ -19,6 +19,7 @@ const initialValues: FormValues = {
 
 function Register() {
   const [values, setValues] = useState(initialValues)
+  const { status } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
 
   function toggleHasAccount() {
@@ -114,9 +115,10 @@ function Register() {
           </label>
           <button
             type="submit"
-            className="button button--primary button--block"
+            className="button button--primary button--block disabled:bg-slate-500"
+            disabled={status == "pending"}
           >
-            submit
+            {status == "pending" ? "submitting..." : "submit"}
           </button>
           <p className="text-center">
             {values.hasAccount
