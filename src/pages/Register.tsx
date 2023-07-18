@@ -1,5 +1,7 @@
 import Logo from "@/components/Logo"
 import { useState } from "react"
+import { toast } from "react-hot-toast"
+import { CLIENT_RENEG_LIMIT } from "tls"
 
 export interface FormValues {
   name: string
@@ -33,6 +35,15 @@ function Register() {
     }))
   }
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (values.hasAccount) {
+      toast.success("Logged in successfully")
+    } else {
+      toast.success("Registered successfully")
+    }
+  }
+
   return (
     <div className="grid min-h-screen place-content-center">
       <div className={formContainerStyles}>
@@ -42,7 +53,11 @@ function Register() {
             {values.hasAccount ? "login" : "register"}
           </h1>
         </header>
-        <form className="space-y-8 text-xl register-form" action="/dashboard">
+        <form
+          className="space-y-8 text-xl register-form"
+          action="/dashboard"
+          onSubmit={handleSubmit}
+        >
           {!values.hasAccount && (
             <label className={labelStyles} htmlFor="name">
               <span>name</span>
