@@ -1,7 +1,8 @@
 import Logo from "@/components/Logo"
 import { loginUser, registerUser } from "@/features/user/userSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export interface FormValues {
   name: string
@@ -19,8 +20,9 @@ const initialValues: FormValues = {
 
 function Register() {
   const [values, setValues] = useState(initialValues)
-  const { status } = useAppSelector((state) => state.user)
+  const { status, user } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   function toggleHasAccount() {
     setValues((prevValues) => ({
@@ -52,6 +54,14 @@ function Register() {
       )
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", {
+        replace: true,
+      })
+    }
+  }, [user])
 
   return (
     <div className="grid min-h-screen place-content-center">
