@@ -1,6 +1,9 @@
 import Logo from "@/components/Logo"
+import { loginUser, registerUser } from "@/features/user/userSlice"
+import { useAppDispatch } from "@/hooks"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
+import { useDispatch } from "react-redux"
 
 export interface FormValues {
   name: string
@@ -18,6 +21,7 @@ const initialValues: FormValues = {
 
 function Register() {
   const [values, setValues] = useState(initialValues)
+  const dispatch = useAppDispatch()
 
   function toggleHasAccount() {
     setValues((prevValues) => ({
@@ -36,10 +40,22 @@ function Register() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    // if (values.hasAccount) {
+    //   toast.success("Logged in successfully")
+    // } else {
+    //   toast.success("Registered successfully")
+    // }
+
     if (values.hasAccount) {
-      toast.success("Logged in successfully")
+      dispatch(loginUser({ email: values.email, password: values.password }))
     } else {
-      toast.success("Registered successfully")
+      dispatch(
+        registerUser({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+      )
     }
   }
 
@@ -69,6 +85,8 @@ function Register() {
                 minLength={3}
                 value={values.name}
                 onChange={handleChange}
+                autoComplete="username"
+                autoFocus={!values.hasAccount}
               />
             </label>
           )}
@@ -82,6 +100,8 @@ function Register() {
               required
               value={values.email}
               onChange={handleChange}
+              autoComplete="email"
+              autoFocus={values.hasAccount}
             />
           </label>
           <label className={labelStyles} htmlFor="password">
@@ -96,6 +116,7 @@ function Register() {
               required
               value={values.password}
               onChange={handleChange}
+              autoComplete="current-password"
             />
           </label>
           <button
