@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 export interface UserState {
-  isLoading: boolean
+  isLoading: "idle" | "pending" | "succeeded" | "failed"
   user: null | {
     name: string
     email: string
@@ -9,7 +9,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  isLoading: false,
+  isLoading: "idle",
   user: null,
 }
 
