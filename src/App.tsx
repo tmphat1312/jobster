@@ -1,12 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Landing from "./pages/Landing"
 import Error from "./pages/Error"
-import Dashboard from "./pages/Dashboard"
+import Dashboard from "./pages/dashboard/Dashboard"
 import Register from "./pages/Register"
 import LoadingSpinner from "./components/LoadingSpinner"
 import { Toaster } from "react-hot-toast"
 import { Provider } from "react-redux"
 import { store } from "./store"
+import Stats from "./pages/dashboard/Stats"
+import AddJob from "./pages/dashboard/AddJob"
+import AllJobs from "./pages/dashboard/AllJobs"
+import Profile from "./pages/dashboard/Profile"
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +24,24 @@ const routes = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard />,
+        children: [
+          {
+            index: true,
+            element: <Stats />,
+          },
+          {
+            path: "add-job",
+            element: <AddJob />,
+          },
+          {
+            path: "all-jobs",
+            element: <AllJobs />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: "register",
