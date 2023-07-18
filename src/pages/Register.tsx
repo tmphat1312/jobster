@@ -25,6 +25,14 @@ function Register() {
     }))
   }
 
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }))
+  }
+
   return (
     <div className="grid min-h-screen place-content-center">
       <div className={formContainerStyles}>
@@ -44,6 +52,9 @@ function Register() {
                 name="name"
                 id="name"
                 required
+                minLength={3}
+                value={values.name}
+                onChange={handleChange}
               />
             </label>
           )}
@@ -51,10 +62,12 @@ function Register() {
             <span>email</span>
             <input
               className={inputStyles}
-              type="text"
+              type="email"
               name="email"
               id="email"
               required
+              value={values.email}
+              onChange={handleChange}
             />
           </label>
           <label className={labelStyles} htmlFor="password">
@@ -64,7 +77,11 @@ function Register() {
               type="password"
               name="password"
               id="password"
+              minLength={6}
+              maxLength={20}
               required
+              value={values.password}
+              onChange={handleChange}
             />
           </label>
           <button
@@ -99,6 +116,6 @@ const formTitleStyles =
   "text-4xl font-semibold tracking-widest drop-shadow-md capitalize"
 const labelStyles = "block space-y-2 capitalize"
 const inputStyles =
-  "border-2 rounded-sm bg-slate-100 focus-visible:bg-slate-50 w-full"
+  "border-2 rounded-sm bg-slate-100 focus-visible:bg-slate-50 w-full px-2 py-1"
 
 export default Register
