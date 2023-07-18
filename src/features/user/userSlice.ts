@@ -1,4 +1,5 @@
 import jobInstance from "@/lib/axios"
+import { getLocalStorage, setLocalStorage } from "@/lib/localstorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { AxiosError } from "axios"
 import { toast } from "react-hot-toast"
@@ -16,9 +17,11 @@ export interface UserResponse {
   token: string
 }
 
+export const LOCAL_STORAGE_KEY = "user_jobster_token"
+
 const initialState: UserState = {
   status: "idle",
-  user: null,
+  user: getLocalStorage(LOCAL_STORAGE_KEY) as UserResponse | null,
 }
 
 export const registerUser = createAsyncThunk(
@@ -88,6 +91,7 @@ const userSlice = createSlice({
       state.status = "succeeded"
       toast.remove()
       toast.success("User registered successfully")
+      setLocalStorage(LOCAL_STORAGE_KEY, user)
     })
     builder.addCase(registerUser.rejected, (state, { payload }) => {
       const { msg } = payload as { msg: string }
@@ -105,6 +109,7 @@ const userSlice = createSlice({
       state.status = "succeeded"
       toast.remove()
       toast.success("User logged in successfully")
+      setLocalStorage(LOCAL_STORAGE_KEY, user)
     })
     builder.addCase(loginUser.rejected, (state, { payload }) => {
       const { msg } = payload as { msg: string }
