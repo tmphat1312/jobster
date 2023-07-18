@@ -31,7 +31,7 @@ const routes = createBrowserRouter([
 
 function App() {
   return (
-    <div className="app">
+    <div>
       <Provider store={store}>
         <RouterProvider router={routes} fallbackElement={<LoadingSpinner />} />
         <Toaster />

@@ -25,7 +25,7 @@
 }
 
 @layer components {
-  .app {
+  .app-container {
     min-block-size: 100dvh;
     inline-size: min(70rem, 90%);
     margin-inline: auto;

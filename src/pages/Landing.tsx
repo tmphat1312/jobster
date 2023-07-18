@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 function Landing() {
   return (
-    <>
+    <div className="app-container">
       <header className="py-6">
         <Logo />
       </header>
@@ -30,7 +30,7 @@ function Landing() {
           className="hidden sm:block"
         />
       </main>
-    </>
+    </div>
   )
 }
 
