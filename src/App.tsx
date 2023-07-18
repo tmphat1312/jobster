@@ -5,6 +5,8 @@ import Dashboard from "./pages/Dashboard"
 import Register from "./pages/Register"
 import LoadingSpinner from "./components/LoadingSpinner"
 import { Toaster } from "react-hot-toast"
+import { Provider } from "react-redux"
+import { store } from "./store"
 
 const routes = createBrowserRouter([
   {
@@ -30,8 +32,10 @@ const routes = createBrowserRouter([
 function App() {
   return (
     <div className="app">
-      <RouterProvider router={routes} fallbackElement={<LoadingSpinner />} />
-      <Toaster />
+      <Provider store={store}>
+        <RouterProvider router={routes} fallbackElement={<LoadingSpinner />} />
+        <Toaster />
+      </Provider>
     </div>
   )
 }
