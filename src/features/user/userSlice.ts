@@ -49,8 +49,27 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (user: { email: string; password: string }) => {
-    console.log("login", user)
+  async (user: { email: string; password: string }, thunkAPI) => {
+    try {
+      const response = await jobInstance.post("/auth/login", user)
+      // return response.data
+      return thunkAPI.fulfillWithValue(response.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.log(error.response)
+        } else if (error.request) {
+          console.log(error.request)
+        } else {
+          console.log("Error", error.message)
+        }
+
+        return thunkAPI.rejectWithValue(error.response?.data)
+      } else {
+        console.error("Unknown Error: ", error)
+        return thunkAPI.rejectWithValue("Unknown Error happened")
+      }
+    }
   }
 )
 
@@ -60,32 +79,40 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
-      state.isLoading = "pending"
+      state.status = "pending"
       toast.loading("Registering user...")
     })
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       const { user } = payload
       state.user = user
-      state.isLoading = "succeeded"
+      state.status = "succeeded"
       toast.remove()
       toast.success("User registered successfully")
     })
     builder.addCase(registerUser.rejected, (state, { payload }) => {
       const { msg } = payload as { msg: string }
-      state.isLoading = "failed"
+      state.status = "failed"
       toast.remove()
       toast.error(msg, {
         duration: 4000,
       })
     })
     builder.addCase(loginUser.pending, (state) => {
-      state.isLoading = "pending"
+      state.status = "pending"
+      toast.loading("Logging in user...")
     })
     builder.addCase(loginUser.fulfilled, (state) => {
-      state.isLoading = "succeeded"
+      state.status = "succeeded"
+      toast.remove()
+      toast.success("User logged in successfully")
     })
-    builder.addCase(loginUser.rejected, (state) => {
-      state.isLoading = "failed"
+    builder.addCase(loginUser.rejected, (state, { payload }) => {
+      const { msg } = payload as { msg: string }
+      state.status = "failed"
+      toast.remove()
+      toast.error(msg, {
+        duration: 4000,
+      })
     })
   },
 })
