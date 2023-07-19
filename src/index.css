@@ -50,6 +50,11 @@
     @apply hover:bg-blue-600 hover:drop-shadow-md;
   }
 
+  .button--grey {
+    @apply text-white bg-neutral-500;
+    @apply hover:bg-neutral-600 hover:drop-shadow-md;
+  }
+
   .button--block {
     display: block;
     inline-size: 100%;
