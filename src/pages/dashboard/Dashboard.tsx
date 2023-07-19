@@ -10,8 +10,10 @@ function Dashboard() {
     <div className="mb-4 dashboard md:grid">
       <div>
         <header className="px-4 py-8 bg-white md:px-16 header">
-          <div className="flex items-center justify-between mx-auto max-w-7xl">
-            <Logo />
+          <div className="flex items-center justify-between gap-4 mx-auto max-w-7xl">
+            <div>
+              <Logo />
+            </div>
             <h1 className="hidden text-4xl font-medium tracking-widest drop-shadow-md md:block">
               Dashboard
             </h1>
