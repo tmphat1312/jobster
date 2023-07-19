@@ -92,7 +92,7 @@ export const updateUser = createAsyncThunk(
           console.log(error.response)
           if (error.response.status == 401) {
             thunkAPI.dispatch(logoutUser())
-            return thunkAPI.rejectWithValue("Unauthorized user")
+            return thunkAPI.rejectWithValue({ msg: "Unauthorized user" })
           }
         } else if (error.request) {
           console.log(error.request)
