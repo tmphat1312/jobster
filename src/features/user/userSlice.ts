@@ -88,7 +88,6 @@ const userSlice = createSlice({
       state.user = null
       state.status = "idle"
       toast.success("User logged out successfully")
-      console.log("logout")
       removeLocalStorage(LOCAL_STORAGE_KEY)
     },
   },
