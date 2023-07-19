@@ -125,7 +125,7 @@ function Register() {
           </label>
           <button
             type="submit"
-            className="button button--primary button--block disabled:bg-slate-500"
+            className="button button--primary button--block"
             disabled={status == "pending"}
           >
             {status == "pending" ? "submitting..." : "submit"}

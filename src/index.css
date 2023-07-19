@@ -38,6 +38,11 @@
     transition-property: background-color, box-shadow;
     transition-duration: 100ms;
     padding: 0.25em 1em;
+
+    &:disabled {
+      @apply opacity-50 cursor-not-allowed bg-slate-500;
+      @apply hover:bg-slate-500;
+    }
   }
 
   .button--primary {
