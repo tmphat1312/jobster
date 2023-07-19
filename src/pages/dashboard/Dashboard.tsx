@@ -7,8 +7,8 @@ import "./Dashboard.css"
 
 function Dashboard() {
   return (
-    <div className="mb-4 dashboard md:grid">
-      <div>
+    <div className="dashboard md:grid">
+      <div className="flex flex-col min-h-screen">
         <header className="px-4 py-8 bg-white md:px-16 header">
           <div className="flex items-center justify-between gap-4 mx-auto max-w-7xl">
             <div>
@@ -23,11 +23,8 @@ function Dashboard() {
         <main className="mx-4 rounded-md md:mx-0 main">
           <Outlet />
         </main>
-        <footer>
-          <div className="md:hidden">
-            <BottomSidebar />
-          </div>
-          footer
+        <footer className="md:hidden footer">
+          <BottomSidebar />
         </footer>
       </div>
       <aside className="hidden sidebar md:block">

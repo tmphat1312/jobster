@@ -6,7 +6,7 @@
   /*? grid is conditionally controlled in Dashboard.tsx */
   grid-template-columns: var(--sidebar, 3rem) auto;
   transition: grid-template-columns linear 200ms;
-  min-height: 100dvh;
+  /* min-height: 100dvh; */
 
   .sidebar {
     grid-row: 1 / span 2;
