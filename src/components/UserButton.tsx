@@ -30,7 +30,7 @@ function UserButton() {
         <span className="text-2xl">
           <BiSolidUserCircle />
         </span>
-        <span>{user.name}</span>
+        <span className="inline-block truncate max-w-[12ch]">{user.name}</span>
         <span className={`${showTooltip && "rotate-180"}`}>
           <BiSolidDownArrow />
         </span>
