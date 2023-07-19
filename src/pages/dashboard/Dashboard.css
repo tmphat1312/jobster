@@ -1,0 +1,21 @@
+/* q: why to refactor */
+/* a: It worked well, but it's a little bit messy*/
+/* TODO: refactor CSS or TailwindCSS classes of Dashboard */
+
+.dashboard {
+  /*? grid is conditionally controlled in Dashboard.tsx */
+  grid-template-columns: var(--sidebar, 3rem) auto;
+  transition: grid-template-columns linear 200ms;
+  min-height: 100dvh;
+
+  .sidebar {
+    grid-row: 1 / span 2;
+    background-color: white;
+    block-size: 100%;
+    @apply border-r-4;
+  }
+}
+
+.dashboard:has(.open) {
+  --sidebar: 15rem;
+}
