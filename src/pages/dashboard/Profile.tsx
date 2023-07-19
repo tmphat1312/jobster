@@ -2,6 +2,29 @@ import { updateUser } from "@/features/user/userThunk"
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useState } from "react"
 
+const inputs = [
+  {
+    type: "text",
+    name: "name",
+    label: "name",
+  },
+  {
+    type: "email",
+    name: "email",
+    label: "email",
+  },
+  {
+    type: "text",
+    name: "lastName",
+    label: "last name",
+  },
+  {
+    type: "text",
+    name: "location",
+    label: "location",
+  },
+] as const
+
 function Profile() {
   const dispatch = useAppDispatch()
   const { user, status } = useAppSelector((state) => state.user)
@@ -23,33 +46,6 @@ function Profile() {
       [event.target.name]: event.target.value,
     }))
   }
-
-  const inputs = [
-    {
-      type: "text",
-      name: "name",
-      label: "name",
-      value: values.name,
-    },
-    {
-      type: "email",
-      name: "email",
-      label: "email",
-      value: values.email,
-    },
-    {
-      type: "text",
-      name: "lastName",
-      label: "last name",
-      value: values.lastName,
-    },
-    {
-      type: "text",
-      name: "location",
-      label: "location",
-      value: values.location,
-    },
-  ] as const
 
   return (
     <form
