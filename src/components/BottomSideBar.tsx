@@ -14,7 +14,7 @@ function BottomSidebar() {
             className={({ isActive }) =>
               clsx(
                 "flex flex-col items-center px-2 py-4 grow bg-primary-500 text-white",
-                isActive && "bg-primary-300 text-primary-900"
+                isActive && "bg-primary-600"
               )
             }
           >
