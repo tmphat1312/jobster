@@ -32,7 +32,7 @@ function Profile() {
       value: values.name,
     },
     {
-      type: "text",
+      type: "email",
       name: "email",
       label: "email",
       value: values.email,
