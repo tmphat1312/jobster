@@ -1,5 +1,5 @@
 import Logo from "@/components/Logo"
-import { loginUser, registerUser } from "@/features/user/userSlice"
+import { loginUser, registerUser } from "@/features/user/userThunk"
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"

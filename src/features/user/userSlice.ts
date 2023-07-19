@@ -1,12 +1,11 @@
-import jobInstance from "@/lib/axios"
 import {
   getLocalStorage,
   removeLocalStorage,
   setLocalStorage,
 } from "@/lib/localstorage"
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { AxiosError } from "axios"
 import { toast } from "react-hot-toast"
+import { loginUser, registerUser, updateUser } from "./userThunk"
+import { createSlice } from "@reduxjs/toolkit"
 
 export interface UserState {
   status: "idle" | "pending" | "succeeded" | "failed"
@@ -28,57 +27,95 @@ const initialState: UserState = {
   user: getLocalStorage(LOCAL_STORAGE_KEY) as UserResponse | null,
 }
 
-export const registerUser = createAsyncThunk(
-  "user/registerUser",
-  async (user: { name: string; email: string; password: string }, thunkAPI) => {
-    try {
-      const response = await jobInstance.post("/auth/register", user)
-      // return response.data
-      return thunkAPI.fulfillWithValue(response.data)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          console.log(error.response)
-        } else if (error.request) {
-          console.log(error.request)
-        } else {
-          console.log("Error", error.message)
-        }
+// export const registerUser = createAsyncThunk(
+//   "user/registerUser",
+//   async (user: { name: string; email: string; password: string }, thunkAPI) => {
+//     try {
+//       const response = await jobInstance.post("/auth/register", user)
+//       // return response.data
+//       return thunkAPI.fulfillWithValue(response.data)
+//     } catch (error) {
+//       if (error instanceof AxiosError) {
+//         if (error.response) {
+//           console.log(error.response)
+//         } else if (error.request) {
+//           console.log(error.request)
+//         } else {
+//           console.log("Error", error.message)
+//         }
 
-        return thunkAPI.rejectWithValue(error.response?.data)
-      } else {
-        console.error("Unknown Error: ", error)
-        return thunkAPI.rejectWithValue("Unknown Error happened")
-      }
-    }
-  }
-)
+//         return thunkAPI.rejectWithValue(error.response?.data)
+//       } else {
+//         console.error("Unknown Error: ", error)
+//         return thunkAPI.rejectWithValue("Unknown Error happened")
+//       }
+//     }
+//   }
+// )
 
-export const loginUser = createAsyncThunk(
-  "user/loginUser",
-  async (user: { email: string; password: string }, thunkAPI) => {
-    try {
-      const response = await jobInstance.post("/auth/login", user)
-      // return response.data
-      return thunkAPI.fulfillWithValue(response.data)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          console.log(error.response)
-        } else if (error.request) {
-          console.log(error.request)
-        } else {
-          console.log("Error", error.message)
-        }
+// export const loginUser = createAsyncThunk(
+//   "user/loginUser",
+//   async (user: { email: string; password: string }, thunkAPI) => {
+//     try {
+//       const response = await jobInstance.post("/auth/login", user)
+//       // return response.data
+//       return thunkAPI.fulfillWithValue(response.data)
+//     } catch (error) {
+//       if (error instanceof AxiosError) {
+//         if (error.response) {
+//           console.log(error.response)
+//         } else if (error.request) {
+//           console.log(error.request)
+//         } else {
+//           console.log("Error", error.message)
+//         }
 
-        return thunkAPI.rejectWithValue(error.response?.data)
-      } else {
-        console.error("Unknown Error: ", error)
-        return thunkAPI.rejectWithValue("Unknown Error happened")
-      }
-    }
-  }
-)
+//         return thunkAPI.rejectWithValue(error.response?.data)
+//       } else {
+//         console.error("Unknown Error: ", error)
+//         return thunkAPI.rejectWithValue("Unknown Error happened")
+//       }
+//     }
+//   }
+// )
+
+// export const updateUser = createAsyncThunk(
+//   "user/updateUser",
+//   async (
+//     user: { name: string; email: string; lastName: string; location: string },
+//     thunkAPI
+//   ) => {
+//     const userState = thunkAPI.getState() as { user: UserState }
+
+//     try {
+//       const response = await jobInstance.patch("/auth/updateUser", user, {
+//         headers: {
+//           authorization: `Bearer ${userState.user.user?.token}`,
+//         },
+//       })
+//       // return response.data
+//       return thunkAPI.fulfillWithValue(response.data)
+//     } catch (error) {
+//       if (error instanceof AxiosError) {
+//         if (error.response) {
+//           console.log(error.response)
+//           if (error.response.status == 401) {
+//             thunkAPI.dispatch(logoutUser())
+//           }
+//         } else if (error.request) {
+//           console.log(error.request)
+//         } else {
+//           console.log("Error", error.message)
+//         }
+
+//         return thunkAPI.rejectWithValue(error.response?.data)
+//       } else {
+//         console.error("Unknown Error: ", error)
+//         return thunkAPI.rejectWithValue("Unknown Error happened")
+//       }
+//     }
+//   }
+// )
 
 const userSlice = createSlice({
   name: "user",
@@ -125,6 +162,26 @@ const userSlice = createSlice({
       setLocalStorage(LOCAL_STORAGE_KEY, user)
     })
     builder.addCase(loginUser.rejected, (state, { payload }) => {
+      const { msg } = payload as { msg: string }
+      state.status = "failed"
+      toast.remove()
+      toast.error(msg, {
+        duration: 4000,
+      })
+    })
+    builder.addCase(updateUser.pending, (state) => {
+      state.status = "pending"
+      toast.loading("Saving changes...")
+    })
+    builder.addCase(updateUser.fulfilled, (state, { payload }) => {
+      const user = payload.user
+      state.user = user
+      state.status = "succeeded"
+      toast.remove()
+      toast.success("Updated in successfully")
+      setLocalStorage(LOCAL_STORAGE_KEY, user)
+    })
+    builder.addCase(updateUser.rejected, (state, { payload }) => {
       const { msg } = payload as { msg: string }
       state.status = "failed"
       toast.remove()
