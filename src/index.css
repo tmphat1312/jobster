@@ -10,6 +10,7 @@
   body {
     background-color: theme("backgroundColor.slate.100");
     color: theme("textColor.slate.500");
+    @apply tracking-wide;
   }
 
   h1,
