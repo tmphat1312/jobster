@@ -11,6 +11,7 @@ import Stats from "./pages/dashboard/Stats"
 import AddJob from "./pages/dashboard/AddJob"
 import AllJobs from "./pages/dashboard/AllJobs"
 import Profile from "./pages/dashboard/Profile"
+import ProtectedPage from "./pages/ProtectedPage"
 
 const routes = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const routes = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedPage>
+            <Dashboard />
+          </ProtectedPage>
+        ),
         children: [
           {
             index: true,

@@ -1,5 +1,9 @@
 import jobInstance from "@/lib/axios"
-import { getLocalStorage, setLocalStorage } from "@/lib/localstorage"
+import {
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage,
+} from "@/lib/localstorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { AxiosError } from "axios"
 import { toast } from "react-hot-toast"
@@ -79,7 +83,15 @@ export const loginUser = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser: (state) => {
+      state.user = null
+      state.status = "idle"
+      toast.success("User logged out successfully")
+      console.log("logout")
+      removeLocalStorage(LOCAL_STORAGE_KEY)
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
       state.status = "pending"
@@ -123,5 +135,7 @@ const userSlice = createSlice({
     })
   },
 })
+
+export const { logoutUser } = userSlice.actions
 
 export default userSlice
