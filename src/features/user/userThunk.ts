@@ -36,10 +36,10 @@ export const registerUser = createAsyncThunk(
         }
 
         return thunkAPI.rejectWithValue(error.response?.data)
-      } else {
-        console.error("Unknown Error: ", error)
-        return thunkAPI.rejectWithValue("Unknown Error happened")
       }
+
+      console.error("Unknown Error: ", error)
+      return thunkAPI.rejectWithValue("Unknown Error happened")
     }
   }
 )
@@ -62,10 +62,10 @@ export const loginUser = createAsyncThunk(
         }
 
         return thunkAPI.rejectWithValue(error.response?.data)
-      } else {
-        console.error("Unknown Error: ", error)
-        return thunkAPI.rejectWithValue("Unknown Error happened")
       }
+
+      console.error("Unknown Error: ", error)
+      return thunkAPI.rejectWithValue("Unknown Error happened")
     }
   }
 )
@@ -92,6 +92,7 @@ export const updateUser = createAsyncThunk(
           console.log(error.response)
           if (error.response.status == 401) {
             thunkAPI.dispatch(logoutUser())
+            return thunkAPI.rejectWithValue("Unauthorized user")
           }
         } else if (error.request) {
           console.log(error.request)
@@ -100,10 +101,10 @@ export const updateUser = createAsyncThunk(
         }
 
         return thunkAPI.rejectWithValue(error.response?.data)
-      } else {
-        console.error("Unknown Error: ", error)
-        return thunkAPI.rejectWithValue("Unknown Error happened")
       }
+
+      console.error("Unknown Error: ", error)
+      return thunkAPI.rejectWithValue("Unknown Error happened")
     }
   }
 )
