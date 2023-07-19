@@ -20,7 +20,7 @@ function Dashboard() {
             <UserButton />
           </div>
         </header>
-        <main className="mx-4 rounded-md md:mx-0 main">
+        <main className="mx-6 my-10 md:mx-16 main">
           <Outlet />
         </main>
         <footer className="md:hidden footer">
