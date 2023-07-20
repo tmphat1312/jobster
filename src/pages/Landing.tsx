@@ -1,8 +1,21 @@
 import Logo from "@/components/Logo"
+import { useAppSelector } from "@/hooks"
 import hero from "@images/hero-female.svg"
-import { Link } from "react-router-dom"
+import { useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 function Landing() {
+  const { user } = useAppSelector((state) => state.user)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", {
+        replace: true,
+      })
+    }
+  }, [])
+
   return (
     <div className="app-container">
       <header className="py-6">
