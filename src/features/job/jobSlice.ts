@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast"
 import { createSlice } from "@reduxjs/toolkit"
-import { addJob, getJobs } from "./jobThunk"
+import { addJob, deleteJob, getJobs } from "./jobThunk"
 
 export interface JobProps {
   position: string
@@ -66,6 +66,27 @@ const jobSlice = createSlice({
       toast.success("All the jobs is there!")
     })
     builder.addCase(getJobs.rejected, (state, { payload }) => {
+      const { msg } = payload as { msg: string }
+      state.status = "failed"
+      toast.remove()
+      toast.error(msg, {
+        duration: 4000,
+      })
+    })
+    builder.addCase(deleteJob.pending, (state) => {
+      state.status = "pending"
+      toast.loading("Deleting job...")
+    })
+    builder.addCase(deleteJob.fulfilled, (state, { payload }) => {
+      const { id } = payload
+      state.status = "succeeded"
+      state.jobs = state.jobs.filter((job) => job._id !== id)
+      state.totalJobs -= 1
+      state.numOfPages -= 1
+      toast.remove()
+      toast.success("Job deleted!")
+    })
+    builder.addCase(deleteJob.rejected, (state, { payload }) => {
       const { msg } = payload as { msg: string }
       state.status = "failed"
       toast.remove()

@@ -89,3 +89,38 @@ export const getJobs = createAsyncThunk(
     }
   }
 )
+
+export const deleteJob = createAsyncThunk(
+  "job/deleteJob",
+  async (id: string, thunkAPI) => {
+    const userState = thunkAPI.getState() as { user: UserState }
+
+    try {
+      const response = await jobInstance.delete(`/jobs/${id}`, {
+        headers: {
+          Authorization: `Bearer ${userState.user.user?.token}`,
+        },
+      })
+      return thunkAPI.fulfillWithValue({ data: response.data, id })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.log(error.response)
+          if (error.response.status == 401) {
+            thunkAPI.dispatch(logoutUser())
+            return thunkAPI.rejectWithValue({ msg: "Unauthorized user" })
+          }
+        } else if (error.request) {
+          console.log(error.request)
+        } else {
+          console.log("Error", error.message)
+        }
+
+        return thunkAPI.rejectWithValue(error.response?.data)
+      }
+
+      console.error("Unknown Error: ", error)
+      return thunkAPI.rejectWithValue("Unknown Error happened")
+    }
+  }
+)

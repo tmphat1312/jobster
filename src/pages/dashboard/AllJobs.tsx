@@ -22,8 +22,9 @@ function AllJobs() {
         </div>
       ) : (
         <div className="mt-8 space-y-4">
-          <p className="font-bold text-center text-slate-800">
-            {totalJobs > 0 ? totalJobs : "No"} job{totalJobs > 1 && "s"} found
+          <p className="text-2xl font-bold text-center text-slate-800">
+            {totalJobs > 0 ? totalJobs : "No"} job
+            {(totalJobs > 1 || totalJobs == 0) && "s"} found
           </p>
           <JobsContainer />
         </div>

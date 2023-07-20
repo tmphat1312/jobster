@@ -1,4 +1,5 @@
-import { JobProps } from "@/features/job/jobThunk"
+import { JobProps, deleteJob } from "@/features/job/jobThunk"
+import { useAppDispatch } from "@/hooks"
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { BiSolidEditLocation, BiSolidTimeFive } from "react-icons/bi"
@@ -6,6 +7,8 @@ import { BsCalendarDate } from "react-icons/bs"
 import { Link } from "react-router-dom"
 
 function JobCard({ job }: { job: JobProps }) {
+  const dispatch = useAppDispatch()
+
   return (
     <article className="bg-white rounded-md drop-shadow-md">
       <header className="flex gap-8 p-4">
@@ -67,7 +70,10 @@ function JobCard({ job }: { job: JobProps }) {
         >
           edit
         </Link>
-        <button className="text-red-600 bg-red-300 button drop-shadow-sm hover:drop-shadow-md">
+        <button
+          className="text-red-600 bg-red-300 button drop-shadow-sm hover:drop-shadow-md"
+          onClick={() => dispatch(deleteJob(job._id || ""))}
+        >
           delete
         </button>
       </footer>
