@@ -7,12 +7,10 @@ import { useEffect } from "react"
 
 function AllJobs() {
   const dispatch = useAppDispatch()
-  const { totalJobs, jobs, status } = useAppSelector((state) => state.job)
+  const { totalJobs, status } = useAppSelector((state) => state.job)
 
   useEffect(() => {
-    if (jobs.length == 0) {
-      dispatch(getJobs())
-    }
+    dispatch(getJobs())
   }, [])
 
   return (
