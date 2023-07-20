@@ -1,3 +1,5 @@
+import { addJob } from "@/features/job/jobThunk"
+import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useState } from "react"
 
 export interface AddJobState {
@@ -40,28 +42,33 @@ const selectInputs = [
 ] as const
 
 function AddJob() {
-  const [values, setValues] = useState({
+  const { user } = useAppSelector((state) => state.user)
+  const { status } = useAppSelector((state) => state.job)
+  const initialState = {
     position: "",
     company: "",
-    jobLocation: "",
+    jobLocation: user?.location ?? "",
     status: "pending",
     jobType: "full-time",
-  })
+  } satisfies AddJobState
+  const [job, setJob] = useState(initialState)
+  const dispatch = useAppDispatch()
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    console.log("submit")
+    dispatch(addJob(job))
+    setJob(initialState)
   }
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setValues((prev) => ({
+    setJob((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }))
   }
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setValues((prev) => ({
+    setJob((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }))
@@ -86,9 +93,10 @@ function AddJob() {
               type={input.type}
               name={input.name}
               id={input.name}
-              value={values[input.name]}
+              value={job[input.name]}
               onChange={handleInputChange}
               autoFocus={i === 0}
+              required
             />
           </label>
         ))}
@@ -104,8 +112,9 @@ function AddJob() {
               className="block w-full px-2 py-1 border border-gray-300 rounded-sm bg-slate-100"
               name={input.name}
               id={input.name}
-              value={values[input.name]}
+              value={job[input.name]}
               onChange={handleSelectChange}
+              required
             >
               {input.options.map((option) => (
                 <option key={option} value={option}>
@@ -117,11 +126,20 @@ function AddJob() {
         ))}
       </div>
       <div className="flex flex-col max-w-sm gap-3 mx-auto sm:flex-row">
-        <button type="submit" className="button button--block button--grey">
+        <button
+          type="button"
+          className="button button--block button--grey"
+          onClick={() => setJob(initialState)}
+          disabled={status == "pending"}
+        >
           clear
         </button>
-        <button type="submit" className="button button--block button--primary">
-          add
+        <button
+          type="submit"
+          className="button button--block button--primary"
+          disabled={status == "pending"}
+        >
+          {status == "pending" ? "adding..." : "add"}
         </button>
       </div>
     </form>
