@@ -1,10 +1,10 @@
+import { setEditId } from "@/features/job/jobSlice"
 import { JobProps, deleteJob } from "@/features/job/jobThunk"
 import { useAppDispatch } from "@/hooks"
 import clsx from "clsx"
 import dayjs from "dayjs"
 import { BiSolidEditLocation, BiSolidTimeFive } from "react-icons/bi"
 import { BsCalendarDate } from "react-icons/bs"
-import { Link } from "react-router-dom"
 
 function JobCard({ job }: { job: JobProps }) {
   const dispatch = useAppDispatch()
@@ -64,12 +64,12 @@ function JobCard({ job }: { job: JobProps }) {
       </div>
       <hr />
       <footer className="p-4 space-x-2">
-        <Link
-          to="/edit"
+        <button
           className="inline-block text-green-600 bg-green-300 button drop-shadow-sm hover:drop-shadow-md"
+          onClick={() => dispatch(setEditId(job._id || ""))}
         >
           edit
-        </Link>
+        </button>
         <button
           className="text-red-600 bg-red-300 button drop-shadow-sm hover:drop-shadow-md"
           onClick={() => dispatch(deleteJob(job._id || ""))}

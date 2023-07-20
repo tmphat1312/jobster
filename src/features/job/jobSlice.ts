@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast"
 import { createSlice } from "@reduxjs/toolkit"
-import { addJob, deleteJob, getJobs } from "./jobThunk"
+import { addJob, deleteJob, editJob, getJobs } from "./jobThunk"
 
 export interface JobProps {
   position: string
@@ -17,6 +17,7 @@ export interface JobState {
   jobs: JobProps[]
   totalJobs: number
   numOfPages: number
+  editId: string
 }
 
 const initialState: JobState = {
@@ -24,12 +25,18 @@ const initialState: JobState = {
   jobs: [],
   totalJobs: 0,
   numOfPages: 0,
+  editId: "",
 }
 
 const jobSlice = createSlice({
   name: "job",
   initialState,
-  reducers: {},
+  reducers: {
+    setEditId(state, { payload }) {
+      const id = payload as string
+      state.editId = id
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(addJob.pending, (state) => {
       state.status = "pending"
@@ -94,7 +101,31 @@ const jobSlice = createSlice({
         duration: 4000,
       })
     })
+    builder.addCase(editJob.pending, (state) => {
+      state.status = "pending"
+      toast.loading("Editing job...")
+    })
+    builder.addCase(editJob.fulfilled, (state, { payload }) => {
+      const { updatedJob } = payload as { updatedJob: JobProps }
+      state.status = "succeeded"
+      state.jobs = [
+        ...state.jobs.filter((job) => job._id !== updatedJob._id),
+        updatedJob,
+      ]
+      toast.remove()
+      toast.success("Job edited!")
+      state.editId = ""
+    })
+    builder.addCase(editJob.rejected, (state, { payload }) => {
+      const { msg } = payload as { msg: string }
+      state.status = "failed"
+      toast.remove()
+      toast.error(msg, {
+        duration: 4000,
+      })
+    })
   },
 })
 
+export const { setEditId } = jobSlice.actions
 export default jobSlice

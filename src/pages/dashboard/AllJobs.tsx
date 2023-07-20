@@ -4,10 +4,11 @@ import LoadingSpinner from "@/components/LoadingSpinner"
 import { getJobs } from "@/features/job/jobThunk"
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useEffect } from "react"
+import EditJobModal from "./EditJobModal"
 
 function AllJobs() {
   const dispatch = useAppDispatch()
-  const { totalJobs, status } = useAppSelector((state) => state.job)
+  const { totalJobs, status, editId } = useAppSelector((state) => state.job)
 
   useEffect(() => {
     dispatch(getJobs())
@@ -28,6 +29,14 @@ function AllJobs() {
           </p>
           <JobsContainer />
         </div>
+      )}
+      {editId != "" && (
+        <>
+          <div className="fixed inset-0 bg-slate-900/50"></div>
+          <div className="fixed -translate-y-1/2 top-1/2 inset-x-4">
+            <EditJobModal />
+          </div>
+        </>
       )}
     </>
   )
