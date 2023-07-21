@@ -3,10 +3,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useState } from "react"
 
 export interface SearchJobState {
-  search: string
-  status: "all" | "pending" | "interview" | "declined"
-  jobType: "all" | "full-time" | "part-time" | "remote" | "internship"
-  sort: "latest" | "oldest" | "a-z" | "z-a"
+  search?: string
+  status?: "all" | "pending" | "interview" | "declined"
+  jobType?: "all" | "full-time" | "part-time" | "remote" | "internship"
+  sort?: "latest" | "oldest" | "a-z" | "z-a"
+  page?: number
 }
 
 const inputs = [
@@ -43,6 +44,7 @@ function SearchJobForm() {
     status: "all",
     jobType: "all",
     sort: "latest",
+    page: 1,
   } satisfies SearchJobState
   const [jobFilter, setJobFilter] = useState(initialState)
 

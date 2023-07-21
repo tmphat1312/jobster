@@ -3,19 +3,25 @@ import JobsContainer from "@/components/JobsContainer"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { getJobs } from "@/features/job/jobThunk"
 import { useAppDispatch, useAppSelector } from "@/hooks"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import EditJobModal from "./EditJobModal"
+import Pagination from "@/components/Pagination"
 
 function AllJobs() {
   const dispatch = useAppDispatch()
-  const { totalJobs, status, editId } = useAppSelector((state) => state.job)
+  const [current, setCurrent] = useState(1)
+  const { totalJobs, status, editId, numOfPages } = useAppSelector(
+    (state) => state.job
+  )
 
   useEffect(() => {
-    dispatch(getJobs())
-  }, [])
+    dispatch(getJobs({ page: current }))
+
+    return () => setCurrent(1)
+  }, [current])
 
   return (
-    <>
+    <div className="space-y-8">
       <SearchJobForm />
       {status == "pending" ? (
         <div className="mt-16 text-lg text-center">
@@ -28,6 +34,13 @@ function AllJobs() {
             {(totalJobs > 1 || totalJobs == 0) && "s"} found
           </p>
           <JobsContainer />
+          {numOfPages > 1 && (
+            <Pagination
+              total={numOfPages}
+              current={current}
+              action={setCurrent}
+            />
+          )}
         </div>
       )}
       {editId != "" && (
@@ -38,7 +51,7 @@ function AllJobs() {
           </div>
         </>
       )}
-    </>
+    </div>
   )
 }
 

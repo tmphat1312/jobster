@@ -59,6 +59,13 @@ export const getJobs = createAsyncThunk(
   async (params: SearchJobState | undefined, thunkAPI) => {
     const userState = thunkAPI.getState() as { user: UserState }
 
+    if (params) {
+      params = {
+        ...params,
+        page: params.page ? params.page : 1,
+      }
+    }
+
     try {
       const response = await jobInstance.get("/jobs", {
         headers: {
