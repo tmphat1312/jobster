@@ -18,7 +18,7 @@ This project includes the following features:
 - I made a simple pagination on the job listing page.
 - Filter job listings by `position`, `status`, `job type`.
 - Sort job listings by `date` added or `name`.
-- Visualize job listings with `area`, `bar`, and `line` charts
+- Visualize job listings with `area`, `bar`, and `line` charts to test it out you need to login as a test user with `email:testUser@test.com password:secret` or hit the `live demo` button
 - HAHA, I did make a edit form modal to edit a job. I'm so proud of myself 😁
 - Note that the api is not mine, I was provided by `John` in the course. So some functionalities are not working as I expected (I couldn't do anything HuHu 😭)
 
