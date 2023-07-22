@@ -25,5 +25,5 @@ export interface UserProps {
   email: string
   lastName: string
   location: string
-  token: string
+  token?: string
 }
