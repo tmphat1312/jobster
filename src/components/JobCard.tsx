@@ -1,7 +1,8 @@
 import { setEditId } from "@/features/job/jobSlice"
-import { JobProps, deleteJob } from "@/features/job/jobThunk"
+import { deleteJob } from "@/features/job/jobThunk"
 import { useAppDispatch } from "@/hooks"
-import clsx from "clsx"
+import { JobProps } from "@/types/api"
+import { cva } from "class-variance-authority"
 import dayjs from "dayjs"
 import { BiSolidEditLocation, BiSolidTimeFive } from "react-icons/bi"
 import { BsCalendarDate } from "react-icons/bs"
@@ -12,14 +13,7 @@ function JobCard({ job }: { job: JobProps }) {
   return (
     <article className="bg-white rounded-md drop-shadow-md">
       <header className="flex gap-8 p-4">
-        <div
-          className={clsx(
-            "grid text-3xl text-white font-bold uppercase rounded-md w-14 h-14 place-content-center",
-            job.status == "pending" && "bg-orange-400",
-            job.status == "declined" && "bg-red-400",
-            job.status == "interview" && "bg-blue-400"
-          )}
-        >
+        <div className={charBox({ intents: job.status })}>
           {job.position.charAt(0)}
         </div>
         <section className="capitalize">
@@ -50,14 +44,7 @@ function JobCard({ job }: { job: JobProps }) {
           <span className="truncate">{job.jobType}</span>
         </p>
         <div>
-          <span
-            className={clsx(
-              job.status == "pending" && "text-orange-500 bg-orange-200",
-              job.status == "declined" && "text-red-500 bg-red-200",
-              job.status == "interview" && "text-blue-500 bg-blue-200",
-              "py-1 px-2 rounded-md inline-block"
-            )}
-          >
+          <span className={statusBadge({ intents: job.status })}>
             {job.status}
           </span>
         </div>
@@ -65,13 +52,13 @@ function JobCard({ job }: { job: JobProps }) {
       <hr />
       <footer className="p-4 space-x-2">
         <button
-          className="inline-block text-green-600 bg-green-300 button drop-shadow-sm hover:drop-shadow-md"
+          className={styles.editButtonClasses}
           onClick={() => dispatch(setEditId(job._id || ""))}
         >
           edit
         </button>
         <button
-          className="text-red-600 bg-red-300 button drop-shadow-sm hover:drop-shadow-md"
+          className={styles.deleteButtonClasses}
           onClick={() => dispatch(deleteJob(job._id || ""))}
         >
           delete
@@ -79,6 +66,40 @@ function JobCard({ job }: { job: JobProps }) {
       </footer>
     </article>
   )
+}
+
+const charBox = cva(
+  [
+    "grid place-content-center",
+    "text-3xl text-white font-bold uppercase",
+    "w-14 h-14 rounded-md ",
+  ],
+  {
+    variants: {
+      intents: {
+        pending: "bg-pending-text",
+        declined: "bg-declined-text",
+        interview: "bg-interview-text",
+      },
+    },
+  }
+)
+
+const statusBadge = cva("py-1 px-2 rounded-md inline-block", {
+  variants: {
+    intents: {
+      pending: "text-pending-text bg-pending-bg",
+      declined: "text-declined-text bg-declined-bg",
+      interview: "text-interview-text bg-interview-bg",
+    },
+  },
+})
+
+const styles = {
+  editButtonClasses:
+    "inline-block text-green-500 bg-green-200 button drop-shadow-sm hover:drop-shadow-md",
+  deleteButtonClasses:
+    "text-red-500 bg-red-200 button drop-shadow-sm hover:drop-shadow-md",
 }
 
 export default JobCard

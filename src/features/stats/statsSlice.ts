@@ -1,20 +1,9 @@
+import { StatsProps } from "@/types/api"
 import { createSlice } from "@reduxjs/toolkit"
-import { getStats } from "./statsThunk"
 import { toast } from "react-hot-toast"
+import { getStats } from "./statsThunk"
 
-export interface StatsProps {
-  defaultStats: {
-    pending: number
-    interview: number
-    declined: number
-  }
-  monthlyApplications: Array<{
-    date: string
-    count: number
-  }>
-}
-
-export interface StatsState {
+interface StatsState {
   data: StatsProps | null
   status: "idle" | "pending" | "succeeded" | "failed"
 }
@@ -36,14 +25,15 @@ const statsSlice = createSlice({
       })
       .addCase(getStats.fulfilled, (state, { payload }) => {
         state.status = "succeeded"
-        state.data = payload as StatsProps
+        state.data = payload
         toast.remove()
         toast.success("Stats loaded")
       })
       .addCase(getStats.rejected, (state, { payload }) => {
+        const { msg } = payload as { msg: string }
         state.status = "failed"
         toast.remove()
-        toast.error(payload as string, {
+        toast.error(msg, {
           duration: 4000,
         })
       })

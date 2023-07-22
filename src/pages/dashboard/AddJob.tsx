@@ -1,8 +1,10 @@
+import SelectInput from "@/components/SelectInput"
+import TextInput from "@/components/TextInput"
 import { addJob } from "@/features/job/jobThunk"
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useState } from "react"
 
-export interface AddJobState {
+interface AddJobState {
   position: string
   company: string
   jobLocation: string
@@ -30,16 +32,16 @@ const inputs = [
 
 const selectInputs = [
   {
-    name: "status",
+    name: "status" as const,
     label: "status",
     options: ["pending", "interview", "declined"],
   },
   {
-    name: "jobType",
+    name: "jobType" as const,
     label: "job type",
     options: ["full-time", "part-time", "remote", "internship"],
   },
-] as const
+]
 
 function AddJob() {
   const { user } = useAppSelector((state) => state.user)
@@ -75,57 +77,38 @@ function AddJob() {
   }
 
   return (
-    <form
-      className="max-w-3xl px-8 py-4 mx-auto bg-white rounded-md drop-shadow-md"
-      onSubmit={handleSubmit}
-    >
-      <h2 className="mb-8 text-3xl font-medium">Add Job</h2>
-      <div className="flex flex-col gap-4 mb-8 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 md:mb-12">
+    <form className={styles.formClasses} onSubmit={handleSubmit}>
+      <h2 className={styles.headingClasses}>Add Job</h2>
+      <div className={styles.inputsContainerClasses}>
         {inputs.map((input, i) => (
-          <label
-            htmlFor={input.name}
+          <TextInput
             key={input.name}
-            className="space-y-1 text-black capitalize"
-          >
-            <span>{input.label}</span>
-            <input
-              className="block w-full px-2 py-1 border border-gray-300 rounded-sm bg-slate-100"
-              type={input.type}
-              name={input.name}
-              id={input.name}
-              value={job[input.name]}
-              onChange={handleInputChange}
-              autoFocus={i === 0}
-              required
-            />
-          </label>
+            {...input}
+            value={job[input.name]}
+            onChange={handleInputChange}
+            required
+            autoFocus={i === 0}
+          />
         ))}
 
         {selectInputs.map((input) => (
-          <label
-            htmlFor={input.name}
+          <SelectInput
             key={input.name}
-            className="space-y-1 text-black capitalize"
-          >
-            <span>{input.label}</span>
-            <select
-              className="block w-full px-2 py-1 border border-gray-300 rounded-sm bg-slate-100"
-              name={input.name}
-              id={input.name}
-              value={job[input.name]}
-              onChange={handleSelectChange}
-              required
-            >
-              {input.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
+            {...input}
+            required
+            value={job[input.name]}
+            onChange={handleSelectChange}
+          />
         ))}
       </div>
-      <div className="flex flex-col max-w-sm gap-3 mx-auto sm:flex-row">
+      <div className={styles.buttonsContainerClasses}>
+        <button
+          type="submit"
+          className="button button--block button--primary"
+          disabled={status == "pending"}
+        >
+          {status == "pending" ? "adding..." : "add"}
+        </button>
         <button
           type="button"
           className="button button--block button--grey"
@@ -134,16 +117,17 @@ function AddJob() {
         >
           clear
         </button>
-        <button
-          type="submit"
-          className="button button--block button--primary"
-          disabled={status == "pending"}
-        >
-          {status == "pending" ? "adding..." : "add"}
-        </button>
       </div>
     </form>
   )
+}
+
+const styles = {
+  formClasses: "max-w-3xl px-8 py-4 mx-auto bg-white rounded-md drop-shadow-md",
+  headingClasses: "mb-8 text-3xl font-medium",
+  inputsContainerClasses:
+    "flex flex-col gap-4 mb-8 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 md:mb-12",
+  buttonsContainerClasses: "flex flex-col max-w-sm gap-3 mx-auto sm:flex-row",
 }
 
 export default AddJob

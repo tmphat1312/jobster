@@ -81,7 +81,7 @@ function Stats() {
           </button>
         ))}
       </div>
-      <div>{chartsComponents[chartType]}</div>
+      <div className="flex justify-center">{chartsComponents[chartType]}</div>
     </div>
   )
 }

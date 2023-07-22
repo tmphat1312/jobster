@@ -134,6 +134,14 @@ function EditJobModal() {
       </div>
       <div className="flex max-w-sm gap-3 mx-auto">
         <button
+          type="submit"
+          className="button button--block button--primary"
+          disabled={status == "pending"}
+          title="Press Enter to submit"
+        >
+          {status == "pending" ? "Editing..." : "Edit"}
+        </button>
+        <button
           type="button"
           className="button button--block button--grey"
           disabled={status == "pending"}
@@ -141,14 +149,6 @@ function EditJobModal() {
           title="Press Esc to cancel"
         >
           cancel
-        </button>
-        <button
-          type="submit"
-          className="button button--block button--primary"
-          disabled={status == "pending"}
-          title="Press Enter to submit"
-        >
-          {status == "pending" ? "Editing..." : "Edit"}
         </button>
       </div>
     </form>

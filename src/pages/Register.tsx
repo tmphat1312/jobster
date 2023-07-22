@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-export interface FormValues {
+interface FormValues {
   name: string
   email: string
   password: string
@@ -44,15 +44,16 @@ function Register() {
 
     if (values.hasAccount) {
       dispatch(loginUser({ email: values.email, password: values.password }))
-    } else {
-      dispatch(
-        registerUser({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        })
-      )
+      return
     }
+
+    dispatch(
+      registerUser({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+    )
   }
 
   useEffect(() => {
@@ -65,10 +66,10 @@ function Register() {
 
   return (
     <div className="grid min-h-screen place-content-center">
-      <div className={formContainerStyles}>
-        <header className={formHeaderStyles}>
+      <div className={styles.formContainerClasses}>
+        <header className={styles.formHeaderClasses}>
           <Logo />
-          <h1 className={formTitleStyles}>
+          <h1 className={styles.formTitleClasses}>
             {values.hasAccount ? "login" : "register"}
           </h1>
         </header>
@@ -78,10 +79,10 @@ function Register() {
           onSubmit={handleSubmit}
         >
           {!values.hasAccount && (
-            <label className={labelStyles} htmlFor="name">
+            <label className={styles.labelClasses} htmlFor="name">
               <span>name</span>
               <input
-                className={inputStyles}
+                className={styles.inputClasses}
                 type="text"
                 name="name"
                 id="name"
@@ -94,10 +95,10 @@ function Register() {
               />
             </label>
           )}
-          <label className={labelStyles} htmlFor="email">
+          <label className={styles.labelClasses} htmlFor="email">
             <span>email</span>
             <input
-              className={inputStyles}
+              className={styles.inputClasses}
               type="email"
               name="email"
               id="email"
@@ -108,10 +109,10 @@ function Register() {
               autoFocus={values.hasAccount}
             />
           </label>
-          <label className={labelStyles} htmlFor="password">
+          <label className={styles.labelClasses} htmlFor="password">
             <span>password</span>
             <input
-              className={inputStyles}
+              className={styles.inputClasses}
               type="password"
               name="password"
               id="password"
@@ -149,13 +150,15 @@ function Register() {
 }
 
 /* styles */
-const formContainerStyles =
-  "px-8 py-16 overflow-hidden bg-white rounded-lg top-line drop-shadow-md w-[90vw] max-w-[450px] line--primary"
-const formHeaderStyles = "flex flex-col items-center justify-center gap-8 mb-8"
-const formTitleStyles =
-  "text-4xl font-semibold tracking-widest drop-shadow-md capitalize"
-const labelStyles = "block space-y-2 capitalize"
-const inputStyles =
-  "border-2 rounded-sm bg-slate-100 focus-visible:bg-slate-50 w-full px-2 py-1"
 
+const styles = {
+  formContainerClasses:
+    "px-8 py-16 overflow-hidden bg-white rounded-lg top-line drop-shadow-md w-[90vw] max-w-[450px] line--primary",
+  formHeaderClasses: "flex flex-col items-center justify-center gap-8 mb-8",
+  formTitleClasses:
+    "text-4xl font-semibold tracking-widest drop-shadow-md capitalize",
+  labelClasses: "block space-y-2 capitalize",
+  inputClasses:
+    "border-2 rounded-sm bg-slate-100 focus-visible:bg-slate-50 w-full px-2 py-1",
+}
 export default Register

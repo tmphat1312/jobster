@@ -1,23 +1,22 @@
-import { useAppSelector } from "@/hooks"
-import { FaRegHandPeace } from "react-icons/fa"
 import { navLinks } from "@/constants"
-import { NavLink } from "react-router-dom"
-import { TbLayoutSidebarLeftCollapse } from "react-icons/tb"
-import { useState } from "react"
+import { useAppSelector } from "@/hooks"
 import clsx from "clsx"
+import { useState } from "react"
+import { FaRegHandPeace } from "react-icons/fa"
+import { TbLayoutSidebarLeftCollapse } from "react-icons/tb"
+import { NavLink } from "react-router-dom"
 
 function Sidebar() {
   const { user } = useAppSelector((state) => state.user)
   const [isMinimized, setIsMinimized] = useState(false)
 
-  function minimizeSidebar() {
-    setIsMinimized((prev) => !prev)
-  }
-
   return (
-    <div className={clsx("py-2", !isMinimized && "open")}>
+    <div className={clsx("py-2 sticky top-0", !isMinimized && "open")}>
       <div className="flex justify-end px-2">
-        <button className="text-3xl hover:text-black" onClick={minimizeSidebar}>
+        <button
+          className="text-3xl hover:text-black"
+          onClick={() => setIsMinimized((prev) => !prev)}
+        >
           <span className={clsx("inline-block", isMinimized && "rotate-180")}>
             <TbLayoutSidebarLeftCollapse />
           </span>

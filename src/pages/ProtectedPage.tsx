@@ -4,11 +4,7 @@ import { Navigate } from "react-router-dom"
 function ProtectedPage({ children }: { children: React.ReactNode }) {
   const { user } = useAppSelector((state) => state.user)
 
-  if (!user) {
-    return <Navigate to="/" />
-  }
-
-  return children
+  return user ? <>{children}</> : <Navigate to="/" />
 }
 
 export default ProtectedPage
