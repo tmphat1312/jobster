@@ -131,6 +131,18 @@ function Register() {
           >
             {status == "pending" ? "submitting..." : "submit"}
           </button>
+          <button
+            type="submit"
+            className="button button--primary button--block"
+            disabled={status == "pending"}
+            onClick={() =>
+              dispatch(
+                loginUser({ email: "testUser@test.com", password: "secret" })
+              )
+            }
+          >
+            {status == "pending" ? "Directing..." : "Live demo"}
+          </button>
           <p className="text-center">
             {values.hasAccount
               ? "Don't have an account?"
