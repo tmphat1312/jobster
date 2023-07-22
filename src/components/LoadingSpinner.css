@@ -3,7 +3,7 @@
   height: 3em;
   display: inline-block;
   position: relative;
-  border: 2px solid theme("colors.primary-600");
+  border: 2px solid theme("colors.primary.600");
   animation: rotation 2s linear infinite;
 }
 .loader::after,
@@ -12,7 +12,7 @@
   position: absolute;
   inset: 0;
   margin: auto;
-  border: 2px solid theme("colors.primary-500");
+  border: 2px solid theme("colors.primary.500");
   width: 2.375em;
   height: 2.375em;
   animation: rotationBack 1.5s linear infinite;
@@ -21,7 +21,7 @@
 .loader::before {
   width: 1.75em;
   height: 1.75em;
-  border-color: theme("colors.primary-400");
+  border-color: theme("colors.primary.400");
   animation: rotation 1s linear infinite;
 }
 

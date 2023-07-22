@@ -71,6 +71,6 @@
   }
 
   .line--primary {
-    border-color: theme("colors.primary-600");
+    border-color: theme("colors.primary.600");
   }
 }
